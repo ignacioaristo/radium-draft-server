@@ -1,22 +1,35 @@
+import bodyParser from 'body-parser';
 import cors from 'cors';
-import express, { Express, Response } from 'express';
+import dotenv from 'dotenv';
+import express from 'express';
+import boom from 'express-boom';
 
-import router from './routes';
+import routes from './routes';
 
-const app: Express = express();
+dotenv.config();
 
-app.use(cors());
+const app = express();
 
-app.use(express.json());
-
-app.use('/', router);
-
-app.get('/', (_req, res: Response) => {
-  res.status(200).send({
-    message: 'Server is up ✅ - Environment: ' + process.env.ENV,
-    data: undefined,
-    error: false,
-  });
+app.use(
+  cors({
+    origin: '*',
+    optionsSuccessStatus: 200,
+  }),
+);
+app.use(bodyParser.json());
+app.use(boom());
+app.use('/api', routes);
+app.use('/api', (req, res) => {
+  if (req.originalUrl !== '/api') {
+    res.status(404);
+    res.send();
+    return;
+  }
+  res.status(200);
+  res.send(`
+    <h1>Welcome to the RR Draft Server</h1>
+    <h2>Environment: <strong>${process.env.ENV_NAME}</strong></h2>
+  `);
 });
 
 export default app;
