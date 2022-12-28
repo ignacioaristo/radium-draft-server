@@ -11,6 +11,10 @@ const playerSchema: Schema = new Schema<IPlayer>(
     position: { type: String, enum: PlayerPosition, required: true },
     status: { type: String, enum: PlayerStatus, required: true },
     fidelity: { type: Number, default: 100, required: true },
+    userID: {
+      ref: 'Player',
+      type: Schema.Types.ObjectId,
+    },
     matchsPlayed: { type: Number },
   },
   { timestamps: true },
