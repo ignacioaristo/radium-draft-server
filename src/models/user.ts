@@ -4,9 +4,10 @@ import { IUser } from 'src/interfaces/user';
 
 const userSchema: Schema = new Schema<IUser>(
   {
-    password: { type: String, required: true },
     email: { type: String, required: true },
+    password: { type: String },
     token: { type: String },
+    firebaseUid: { type: String },
   },
   { timestamps: true },
 );
