@@ -104,3 +104,5 @@ dist
 
 .DS_Store
 .vercel
+
+radium-draft-firebase-adminsdk.json
