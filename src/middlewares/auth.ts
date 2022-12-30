@@ -1,16 +1,23 @@
 import { NextFunction, Request, Response } from 'express';
 
-const checkAuth = () => async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const { token } = req.headers;
-    if (!token) {
-      return res.status(400).json({ message: 'Provide a token' });
-    }
+import Firebase from 'src/config/firebase';
 
-    return next();
-  } catch (error: any) {
-    return res.status(401).json({ message: error.toString() });
+export interface RequestWithFirebase extends Request {
+  firebaseUid?: string;
+}
+
+export const checkToken = async (req: RequestWithFirebase, res: Response, next: NextFunction) => {
+  if (!req.headers.authorization) {
+    return res.boom.badRequest('Token is required');
   }
+  return Firebase.auth()
+    .verifyIdToken(req.headers.authorization)
+    .then((decodedToken) => {
+      req.firebaseUid = decodedToken.uid;
+      return next();
+    })
+    .catch((error) => {
+      console.log('error', error);
+      return res.boom.unauthorized('Access not allowed');
+    });
 };
-
-export default checkAuth;
