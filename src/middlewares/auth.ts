@@ -10,6 +10,7 @@ export const checkToken = async (req: RequestWithFirebase, res: Response, next: 
   if (!req.headers.authorization) {
     return res.boom.badRequest('Token is required');
   }
+
   return Firebase.auth()
     .verifyIdToken(req.headers.authorization)
     .then((decodedToken) => {
@@ -17,7 +18,6 @@ export const checkToken = async (req: RequestWithFirebase, res: Response, next: 
       return next();
     })
     .catch((error) => {
-      console.log('error', error);
       return res.boom.unauthorized('Access not allowed');
     });
 };
