@@ -7,17 +7,14 @@ export interface RequestWithFirebase extends Request {
 }
 
 export const checkToken = async (req: RequestWithFirebase, res: Response, next: NextFunction) => {
-  if (!req.headers.authorization) {
-    return res.boom.badRequest('Token is required');
+  try {
+    if (!req.headers.authorization) {
+      return res.boom.badRequest('Token is required');
+    }
+    const decodedToken = await Firebase.auth().verifyIdToken(req.headers.authorization);
+    res.locals.firebaseUid = decodedToken.uid;
+    return next();
+  } catch (error) {
+    return res.boom.unauthorized('Access not allowed');
   }
-
-  return Firebase.auth()
-    .verifyIdToken(req.headers.authorization)
-    .then((decodedToken) => {
-      req.firebaseUid = decodedToken.uid;
-      return next();
-    })
-    .catch((error) => {
-      return res.boom.unauthorized('Access not allowed');
-    });
 };
