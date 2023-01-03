@@ -1,6 +1,6 @@
 import mongoose, { Schema } from 'mongoose';
 
-import { PlayerPosition, PlayerStatus } from 'src/enums';
+import { PlayerPosition } from 'src/enums';
 import { IPlayer } from 'src/interfaces/player';
 
 const playerSchema: Schema = new Schema<IPlayer>(
@@ -9,8 +9,7 @@ const playerSchema: Schema = new Schema<IPlayer>(
     lastName: { type: String, required: true },
     skill: { type: Number, required: true },
     position: { type: String, enum: PlayerPosition, required: true },
-    status: { type: String, enum: PlayerStatus, required: true },
-    fidelity: { type: Number, default: 100, required: true },
+    fidelity: { type: Number, default: 100 },
     matchesPlayed: { type: Number },
     firebaseUid: { type: String, required: true, unique: true },
   },
