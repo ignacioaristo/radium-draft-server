@@ -1,6 +1,6 @@
 import mongoose, { Schema } from 'mongoose';
 
-import { MatchStatus } from 'src/enums';
+import { MatchStatus, Teams } from 'src/enums';
 import { IMatch } from 'src/interfaces/match';
 
 const matchSchema: Schema = new Schema<IMatch>(
@@ -20,8 +20,9 @@ const matchSchema: Schema = new Schema<IMatch>(
     date: { type: Date },
     status: { type: String, enum: MatchStatus, default: MatchStatus.toBePlayed },
     result: {
-      score: { type: String },
-      winner: { type: String },
+      teamA: { type: Number },
+      teamB: { type: Number },
+      winner: { type: String, enum: Teams },
     },
   },
   { timestamps: true },

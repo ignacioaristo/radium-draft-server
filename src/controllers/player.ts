@@ -17,7 +17,7 @@ export const createPlayer = async (req: Request, res: Response) => {
     return res.status(200).json({
       statusCode: 200,
       success: 'Player Created',
-      data: newPlayer,
+      payload: newPlayer,
     });
   } catch (error) {
     if (error instanceof Error) return res.boom.internal(error.message);
@@ -32,7 +32,7 @@ export const getPlayers = async (req: Request, res: Response) => {
     return res.status(200).json({
       statusCode: 200,
       success: 'Players Found',
-      data: players,
+      payload: players,
     });
   } catch (error) {
     if (error instanceof Error) return res.boom.internal(error.message);
