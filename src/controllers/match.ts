@@ -119,7 +119,7 @@ export const finishMatch = async (req: Request, res: Response) => {
     match.result = {
       teamA,
       teamB,
-      winner: teamA > teamB ? 'teamA' : 'teamB',
+      winner: teamA === teamB ? 'Draw' : teamA > teamB ? 'teamA' : 'teamB',
     };
     await match.save();
 
