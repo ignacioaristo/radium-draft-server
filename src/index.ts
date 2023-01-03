@@ -35,7 +35,7 @@ export const mongooseConnection = () =>
     });
   });
 
-const PORT = 5000;
+const PORT = 3333;
 
 const startApp = async () => {
   try {
