@@ -14,5 +14,7 @@ router.post('/', isPlayerAuthMiddleware, createMatch);
 router.get('/', isPlayerAuthMiddleware, getMatches);
 router.get('/inactive', isPlayerAuthMiddleware, getInactiveMatches);
 router.get('/active', isPlayerAuthMiddleware, getActiveMatches);
+router.patch('/cancel/:id', cancelMatch);
+router.patch('/finish/:id', finishMatch);
 
 export default router;
