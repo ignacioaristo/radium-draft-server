@@ -5,9 +5,15 @@ import { UserTypes } from 'src/interfaces/userTypes';
 import Player from 'src/models/player';
 
 export const createPlayer = async (req: Request, res: Response) => {
+  const { firebaseUid } = res.locals;
   try {
-    const { firebaseUid } = res.locals;
-    const newPlayer = new Player({ ...req.body, firebaseUid });
+    const newPlayer = new Player({
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      position: req.body.position,
+      skill: req.body.skill,
+      firebaseUid,
+    });
     await newPlayer.save();
 
     await Firebase.auth().setCustomUserClaims(firebaseUid, {
@@ -20,6 +26,11 @@ export const createPlayer = async (req: Request, res: Response) => {
       payload: newPlayer,
     });
   } catch (error) {
+    try {
+      Firebase.auth().deleteUser(firebaseUid);
+    } catch (error) {
+      console.log('Remove Firebase Account Error - ', error);
+    }
     if (error instanceof Error) return res.boom.internal(error.message);
     return res.boom.internal(String(error));
   }
