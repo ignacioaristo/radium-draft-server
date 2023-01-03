@@ -1,10 +1,11 @@
 import express from 'express';
 
-import { createMatch, getMatchs } from 'src/controllers/match';
+import { createMatch, getActiveMatchs, getInactiveMatchs } from 'src/controllers/match';
 
 const router = express.Router();
 
 router.post('/', createMatch);
-router.get('/', getMatchs);
+router.get('/inactive', getInactiveMatchs);
+router.get('/active', getActiveMatchs);
 
 export default router;

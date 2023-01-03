@@ -1,5 +1,7 @@
 import { PopulatedDoc } from 'mongoose';
 
+import { MatchStatus } from 'src/enums';
+
 import { IPlayer } from './player';
 
 export interface IMatch {
@@ -7,6 +9,7 @@ export interface IMatch {
   teamB: PopulatedDoc<IPlayer>[];
   date: Date;
   result: Result;
+  status: MatchStatus;
 }
 
 interface Result {
