@@ -73,15 +73,18 @@ export const getMatches = async (req: Request, res: Response) => {
 export const cancelMatch = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const match = await Match.findOneAndUpdate(
-      { id, status: MatchStatus.toBePlayed },
-      { status: MatchStatus.cancelled },
-      { new: true },
-    );
+    const match = await Match.findById({ _id: id });
 
     if (!match) {
       throw new Error('Match not found');
     }
+
+    if (match.status !== MatchStatus.toBePlayed) {
+      throw new Error(`Match status is not ${MatchStatus.toBePlayed}`);
+    }
+
+    match.status = MatchStatus.cancelled;
+    await match.save();
 
     return res.status(200).json({
       statusCode: 200,
@@ -93,18 +96,32 @@ export const cancelMatch = async (req: Request, res: Response) => {
   }
 };
 
+interface ResultBody {
+  teamA: number;
+  teamB: number;
+}
+
 export const finishMatch = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const match = await Match.findOneAndUpdate(
-      { id, status: MatchStatus.toBePlayed },
-      { status: MatchStatus.finished },
-      { new: true },
-    );
+    const { teamA, teamB }: ResultBody = req.body.result;
+    const match = await Match.findById({ _id: id });
 
     if (!match) {
       throw new Error('Match not found');
     }
+
+    if (match.status !== MatchStatus.toBePlayed) {
+      throw new Error(`Match status is not ${MatchStatus.toBePlayed}`);
+    }
+
+    match.status = MatchStatus.finished;
+    match.result = {
+      teamA,
+      teamB,
+      winner: teamA > teamB ? 'teamA' : 'teamB',
+    };
+    await match.save();
 
     return res.status(200).json({
       statusCode: 200,

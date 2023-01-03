@@ -13,6 +13,7 @@ export interface IMatch {
 }
 
 interface Result {
-  score: string;
+  teamA: number;
+  teamB: number;
   winner: string;
 }

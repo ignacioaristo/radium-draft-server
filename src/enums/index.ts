@@ -16,3 +16,8 @@ export enum MatchStatus {
   cancelled = 'Cancelled',
   finished = 'Finished',
 }
+
+export enum Teams {
+  teamA = 'teamA',
+  teamB = 'teamB',
+}
