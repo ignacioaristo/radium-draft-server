@@ -12,6 +12,7 @@ const playerSchema: Schema = new Schema<IPlayer>(
     status: { type: String, enum: PlayerStatus, required: true },
     fidelity: { type: Number, default: 100, required: true },
     matchesPlayed: { type: Number },
+    firebaseUid: { type: String, required: true, unique: true },
   },
   { timestamps: true },
 );
