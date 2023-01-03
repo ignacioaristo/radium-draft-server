@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import express from 'express';
 import boom from 'express-boom';
 
+import { checkToken } from './middlewares/auth';
 import routes from './routes';
 
 dotenv.config();
@@ -18,7 +19,7 @@ app.use(
 );
 app.use(bodyParser.json());
 app.use(boom());
-app.use('/api', routes);
+app.use('/api', checkToken, routes);
 app.use('/api', (req, res) => {
   if (req.originalUrl !== '/api') {
     res.status(404);
