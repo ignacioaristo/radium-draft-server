@@ -8,4 +8,5 @@ export interface IPlayer {
   status: PlayerStatus;
   fidelity: number;
   matchesPlayed: number;
+  firebaseUid: string;
 }

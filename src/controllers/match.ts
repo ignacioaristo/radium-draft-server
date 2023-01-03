@@ -19,38 +19,52 @@ export const createMatch = async (req: Request, res: Response) => {
   }
 };
 
-export const getActiveMatchs = async (req: Request, res: Response) => {
+export const getActiveMatches = async (req: Request, res: Response) => {
   try {
-    const matchs = await Match.find({ status: MatchStatus.toBePlayed }).populate('teamA teamB');
+    const matches = await Match.find({ status: MatchStatus.toBePlayed }).populate('teamA teamB');
 
-    if (!matchs || matchs.length === 0) {
-      throw new Error('Matchs not found');
+    if (!matches || matches.length === 0) {
+      throw new Error('Matches not found');
     }
 
     return res.status(200).json({
       statusCode: 200,
-      success: 'Matchs Found',
-      data: matchs,
+      success: 'Matches Found',
+      data: matches,
     });
   } catch (error: any) {
     return res.boom.internal(error.message);
   }
 };
 
-export const getInactiveMatchs = async (req: Request, res: Response) => {
+export const getInactiveMatches = async (req: Request, res: Response) => {
   try {
-    const matchs = await Match.find({
+    const matches = await Match.find({
       $or: [{ status: MatchStatus.cancelled }, { status: MatchStatus.finished }],
     }).populate('teamA teamB');
 
-    if (!matchs || matchs.length === 0) {
-      throw new Error('Matchs not found');
+    if (!matches || matches.length === 0) {
+      throw new Error('Matches not found');
     }
 
     return res.status(200).json({
       statusCode: 200,
-      success: 'Matchs Found',
-      data: matchs,
+      success: 'Matches Found',
+      data: matches,
+    });
+  } catch (error: any) {
+    return res.boom.internal(error.message);
+  }
+};
+
+export const getMatches = async (req: Request, res: Response) => {
+  try {
+    const matches = await Match.find();
+
+    return res.status(200).json({
+      statusCode: 200,
+      success: 'Matches Found',
+      data: matches,
     });
   } catch (error: any) {
     return res.boom.internal(error.message);
