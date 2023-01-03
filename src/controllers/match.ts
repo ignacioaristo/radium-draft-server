@@ -11,11 +11,12 @@ export const createMatch = async (req: Request, res: Response) => {
 
     return res.status(200).json({
       statusCode: 200,
-      success: 'Match Created',
+      message: 'Match Created',
       payload: newMatch,
     });
-  } catch (error: any) {
-    return res.boom.internal(error.message);
+  } catch (error) {
+    if (error instanceof Error) return res.boom.internal(error.message);
+    return res.boom.internal(String(error));
   }
 };
 
@@ -29,11 +30,12 @@ export const getActiveMatches = async (req: Request, res: Response) => {
 
     return res.status(200).json({
       statusCode: 200,
-      success: 'Matches Found',
-      data: matches,
+      message: 'Matches Found',
+      payload: matches,
     });
-  } catch (error: any) {
-    return res.boom.internal(error.message);
+  } catch (error) {
+    if (error instanceof Error) return res.boom.internal(error.message);
+    return res.boom.internal(String(error));
   }
 };
 
@@ -49,11 +51,12 @@ export const getInactiveMatches = async (req: Request, res: Response) => {
 
     return res.status(200).json({
       statusCode: 200,
-      success: 'Matches Found',
-      data: matches,
+      message: 'Matches Found',
+      payload: matches,
     });
-  } catch (error: any) {
-    return res.boom.internal(error.message);
+  } catch (error) {
+    if (error instanceof Error) return res.boom.internal(error.message);
+    return res.boom.internal(String(error));
   }
 };
 
@@ -63,11 +66,12 @@ export const getMatches = async (req: Request, res: Response) => {
 
     return res.status(200).json({
       statusCode: 200,
-      success: 'Matches Found',
-      data: matches,
+      message: 'Matches Found',
+      payload: matches,
     });
-  } catch (error: any) {
-    return res.boom.internal(error.message);
+  } catch (error) {
+    if (error instanceof Error) return res.boom.internal(error.message);
+    return res.boom.internal(String(error));
   }
 };
 export const cancelMatch = async (req: Request, res: Response) => {
@@ -91,8 +95,9 @@ export const cancelMatch = async (req: Request, res: Response) => {
       success: 'Matchs Cancelled',
       payload: match,
     });
-  } catch (error: any) {
-    return res.boom.internal(error.message);
+  } catch (error) {
+    if (error instanceof Error) return res.boom.internal(error.message);
+    return res.boom.internal(String(error));
   }
 };
 
@@ -128,7 +133,8 @@ export const finishMatch = async (req: Request, res: Response) => {
       success: 'Match Finished',
       payload: match,
     });
-  } catch (error: any) {
-    return res.boom.internal(error.message);
+  } catch (error) {
+    if (error instanceof Error) return res.boom.internal(error.message);
+    return res.boom.internal(String(error));
   }
 };
