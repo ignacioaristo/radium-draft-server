@@ -8,6 +8,7 @@ export interface IPlayer {
   fidelity: number;
   matchesPlayed: number;
   firebaseUid: string;
+  profileImage?: string;
 }
 
 export type YUPPlayer = Pick<IPlayer, 'firstName' | 'lastName' | 'position' | 'skill'>;

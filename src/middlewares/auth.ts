@@ -37,14 +37,13 @@ export const isPlayerAuthMiddleware = async (
       throw new Error('Provide a valid player token');
     }
 
-    const player = await Player.findOne({ firebaseUID: decodedToken.uid });
+    const player = await Player.findOne({ firebaseUid: decodedToken.uid });
     if (!player) {
       return res.boom.unauthorized('Player does not exist.');
     }
 
     res.locals.firebaseUid = decodedToken.uid;
     res.locals.userType = decodedToken.userType;
-
     return next();
   } catch (error) {
     return res.boom.unauthorized('Access not allowed');

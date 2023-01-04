@@ -10,8 +10,9 @@ const playerSchema: Schema = new Schema<IPlayer>(
     skill: { type: Number, required: true },
     position: { type: String, enum: PlayerPosition, required: true },
     fidelity: { type: Number, default: 100 },
-    matchesPlayed: { type: Number },
+    matchesPlayed: { type: Number, default: 0 },
     firebaseUid: { type: String, required: true, unique: true },
+    profileImage: { type: String },
   },
   { timestamps: true },
 );

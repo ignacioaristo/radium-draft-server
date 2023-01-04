@@ -7,7 +7,7 @@ import { validatePlayerSchema } from 'src/middlewares/player';
 const router = express.Router();
 
 router.post('/', isFirebaseTokenValid, validatePlayerSchema, createPlayer);
-router.get('/', isPlayerAuthMiddleware, getPlayer);
 router.get('/all', isPlayerAuthMiddleware, getPlayers);
+router.get('/', isPlayerAuthMiddleware, getPlayer);
 
 export default router;

@@ -42,12 +42,7 @@ export const getPlayer = async (req: Request, res: Response) => {
     const player = await Player.findOne({ firebaseUid });
 
     if (!player) throw new Error('No player found');
-
-    return res.status(200).json({
-      statusCode: 200,
-      message: 'Player Found',
-      payload: player,
-    });
+    return res.status(200).json(player);
   } catch (error) {
     if (error instanceof Error) return res.boom.internal(error.message);
     return res.boom.internal(String(error));
