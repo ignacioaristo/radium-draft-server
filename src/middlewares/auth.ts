@@ -44,6 +44,7 @@ export const isPlayerAuthMiddleware = async (
 
     res.locals.firebaseUid = decodedToken.uid;
     res.locals.userType = decodedToken.userType;
+
     return next();
   } catch (error) {
     return res.boom.unauthorized('Access not allowed');

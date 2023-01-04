@@ -36,6 +36,24 @@ export const createPlayer = async (req: Request, res: Response) => {
   }
 };
 
+export const getPlayer = async (req: Request, res: Response) => {
+  try {
+    const { firebaseUid } = res.locals;
+    const player = await Player.findOne({ firebaseUid });
+
+    if (!player) throw new Error('No player found');
+
+    return res.status(200).json({
+      statusCode: 200,
+      message: 'Player Found',
+      payload: player,
+    });
+  } catch (error) {
+    if (error instanceof Error) return res.boom.internal(error.message);
+    return res.boom.internal(String(error));
+  }
+};
+
 export const getPlayers = async (req: Request, res: Response) => {
   try {
     const players = await Player.find();
