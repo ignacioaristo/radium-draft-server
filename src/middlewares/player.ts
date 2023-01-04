@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import * as yup from 'yup';
 
+import Firebase from 'src/config/firebase';
 import { PlayerPosition } from 'src/enums';
 import { YUPPlayer } from 'src/interfaces/player';
 
@@ -28,10 +29,14 @@ const playerYupSchema: yup.SchemaOf<YUPPlayer> = yup.object({
 });
 
 const validatePlayerSchema = async (req: Request, res: Response, next: NextFunction) => {
+  const { firebaseUid } = res.locals;
   try {
     await playerYupSchema.validate(
       {
-        firstName: req.body.party,
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        position: req.body.position,
+        skill: req.body.skill,
       },
       {
         strict: true,
@@ -39,6 +44,11 @@ const validatePlayerSchema = async (req: Request, res: Response, next: NextFunct
     );
     next();
   } catch (error) {
+    try {
+      Firebase.auth().deleteUser(firebaseUid);
+    } catch (error) {
+      console.log('Remove Firebase Account Error - ', error);
+    }
     if (error instanceof Error) return res.boom.internal(error.message);
     return res.boom.internal(String(error));
   }
