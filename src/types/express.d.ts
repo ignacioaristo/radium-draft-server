@@ -1,6 +1,5 @@
 import 'express';
-
-import { UserTypes } from 'src/interfaces/userTypes';
+import { UserTypes } from 'interfaces';
 
 interface locals {
   userType: UserTypes;

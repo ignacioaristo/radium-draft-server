@@ -34,6 +34,7 @@
       "controllers/*": ["./src/controllers/*"],
       "enums": ["./src/enums"],
       "enums/*": ["./src/enums/*"],
+      "interfaces": ["./src/interfaces"],
       "interfaces/*": ["./src/interfaces/*"],
       "middlewares/*": ["./src/middlewares/*"],
       "models/*": ["./src/models/*"],

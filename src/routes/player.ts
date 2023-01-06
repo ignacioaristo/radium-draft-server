@@ -1,8 +1,7 @@
+import { createPlayer, editPlayer, getPlayer, getPlayers } from 'controllers/player';
 import express from 'express';
-
-import { createPlayer, editPlayer, getPlayer, getPlayers } from 'src/controllers/player';
-import { isFirebaseTokenValid, isPlayerAuthMiddleware } from 'src/middlewares/auth';
-import { validatePlayerSchema } from 'src/middlewares/player';
+import { isFirebaseTokenValid, isPlayerAuthMiddleware } from 'middlewares/auth';
+import { validatePlayerSchema } from 'middlewares/player';
 
 const router = express.Router();
 

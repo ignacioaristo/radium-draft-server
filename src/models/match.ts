@@ -1,7 +1,6 @@
+import { MatchStatus, Teams } from 'enums';
+import { IMatch } from 'interfaces';
 import mongoose, { Schema } from 'mongoose';
-
-import { MatchStatus, Teams } from 'src/enums';
-import { IMatch } from 'src/interfaces/match';
 
 const matchSchema: Schema = new Schema<IMatch>(
   {

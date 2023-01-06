@@ -1,4 +1,4 @@
-import { PlayerPosition } from 'src/enums';
+import { PlayerPosition } from 'enums';
 
 export interface IPlayer {
   firstName: string;

@@ -1,6 +1,5 @@
+import { MatchStatus } from 'enums';
 import { PopulatedDoc } from 'mongoose';
-
-import { MatchStatus } from 'src/enums';
 
 import { IPlayer } from './player';
 

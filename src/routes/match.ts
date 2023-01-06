@@ -1,5 +1,3 @@
-import express from 'express';
-
 import {
   cancelMatch,
   createMatch,
@@ -8,8 +6,9 @@ import {
   getInactiveMatches,
   getMatch,
   getMatches,
-} from 'src/controllers/match';
-import { isPlayerAuthMiddleware } from 'src/middlewares/auth';
+} from 'controllers/match';
+import express from 'express';
+import { isPlayerAuthMiddleware } from 'middlewares/auth';
 
 const router = express.Router();
 
