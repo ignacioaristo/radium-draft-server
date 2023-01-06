@@ -9,7 +9,7 @@ export const createMatch = async (req: Request, res: Response) => {
     const newMatch = new Match(req.body);
     await newMatch.save();
 
-    return res.status(200).json(newMatch);
+    return res.status(201).json(newMatch);
   } catch (error) {
     if (error instanceof Error) return res.boom.internal(error.message);
     return res.boom.internal(String(error));
