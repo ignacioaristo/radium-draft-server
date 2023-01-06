@@ -71,7 +71,11 @@ export const editPlayer = async (req: Request, res: Response) => {
     const player = await Player.findOneAndUpdate(
       { firebaseUid },
       {
-        ...body,
+        firstName: body.firstName,
+        lastName: body.lastName,
+        position: body.position,
+        skill: body.skill,
+        profileImage: body.profileImage,
       },
       { new: true },
     );
