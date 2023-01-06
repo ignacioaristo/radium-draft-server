@@ -20,6 +20,20 @@ export const createMatch = async (req: Request, res: Response) => {
   }
 };
 
+export const getMatch = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const match = await Match.findById(id);
+
+    if (!match) throw new Error('Match not found');
+
+    return res.status(200).json(match);
+  } catch (error) {
+    if (error instanceof Error) return res.boom.internal(error.message);
+    return res.boom.internal(String(error));
+  }
+};
+
 export const getActiveMatches = async (req: Request, res: Response) => {
   try {
     const matches = await Match.find({ status: MatchStatus.toBePlayed }).populate('teamA teamB');
