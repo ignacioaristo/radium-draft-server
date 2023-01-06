@@ -9,11 +9,7 @@ export const createMatch = async (req: Request, res: Response) => {
     const newMatch = new Match(req.body);
     await newMatch.save();
 
-    return res.status(200).json({
-      statusCode: 200,
-      message: 'Match Created',
-      payload: newMatch,
-    });
+    return res.status(200).json(newMatch);
   } catch (error) {
     if (error instanceof Error) return res.boom.internal(error.message);
     return res.boom.internal(String(error));
@@ -23,7 +19,7 @@ export const createMatch = async (req: Request, res: Response) => {
 export const getMatch = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const match = await Match.findById(id);
+    const match = await Match.findById(id).populate('teamA teamB');
 
     if (!match) throw new Error('Match not found');
 
