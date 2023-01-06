@@ -9,11 +9,21 @@ export const createMatch = async (req: Request, res: Response) => {
     const newMatch = new Match(req.body);
     await newMatch.save();
 
-    return res.status(200).json({
-      statusCode: 200,
-      message: 'Match Created',
-      payload: newMatch,
-    });
+    return res.status(201).json(newMatch);
+  } catch (error) {
+    if (error instanceof Error) return res.boom.internal(error.message);
+    return res.boom.internal(String(error));
+  }
+};
+
+export const getMatch = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const match = await Match.findById(id).populate('teamA teamB');
+
+    if (!match) throw new Error('Match not found');
+
+    return res.status(200).json(match);
   } catch (error) {
     if (error instanceof Error) return res.boom.internal(error.message);
     return res.boom.internal(String(error));
@@ -28,11 +38,7 @@ export const getActiveMatches = async (req: Request, res: Response) => {
       throw new Error('Matches not found');
     }
 
-    return res.status(200).json({
-      statusCode: 200,
-      message: 'Matches Found',
-      payload: matches,
-    });
+    return res.status(200).json(matches);
   } catch (error) {
     if (error instanceof Error) return res.boom.internal(error.message);
     return res.boom.internal(String(error));
@@ -49,11 +55,7 @@ export const getInactiveMatches = async (req: Request, res: Response) => {
       throw new Error('Matches not found');
     }
 
-    return res.status(200).json({
-      statusCode: 200,
-      message: 'Matches Found',
-      payload: matches,
-    });
+    return res.status(200).json(matches);
   } catch (error) {
     if (error instanceof Error) return res.boom.internal(error.message);
     return res.boom.internal(String(error));
@@ -90,11 +92,7 @@ export const cancelMatch = async (req: Request, res: Response) => {
     match.status = MatchStatus.cancelled;
     await match.save();
 
-    return res.status(200).json({
-      statusCode: 200,
-      success: 'Matchs Cancelled',
-      payload: match,
-    });
+    return res.status(200).json(match);
   } catch (error) {
     if (error instanceof Error) return res.boom.internal(error.message);
     return res.boom.internal(String(error));
@@ -128,11 +126,7 @@ export const finishMatch = async (req: Request, res: Response) => {
     };
     await match.save();
 
-    return res.status(200).json({
-      statusCode: 200,
-      success: 'Match Finished',
-      payload: match,
-    });
+    return res.status(200).json(match);
   } catch (error) {
     if (error instanceof Error) return res.boom.internal(error.message);
     return res.boom.internal(String(error));
