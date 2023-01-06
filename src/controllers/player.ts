@@ -63,3 +63,27 @@ export const getPlayers = async (req: Request, res: Response) => {
     return res.boom.internal(String(error));
   }
 };
+
+export const editPlayer = async (req: Request, res: Response) => {
+  try {
+    const { firebaseUid } = res.locals;
+    const body = req.body;
+    const player = await Player.findOneAndUpdate(
+      { firebaseUid },
+      {
+        firstName: body.firstName,
+        lastName: body.lastName,
+        position: body.position,
+        skill: body.skill,
+        profileImage: body.profileImage,
+      },
+      { new: true },
+    );
+    if (!player) throw new Error('No player found');
+
+    return res.status(200).json(player);
+  } catch (error) {
+    if (error instanceof Error) return res.boom.internal(error.message);
+    return res.boom.internal(String(error));
+  }
+};
