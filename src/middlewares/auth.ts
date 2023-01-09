@@ -1,8 +1,7 @@
+import Firebase from 'config/firebase';
 import { NextFunction, Request, Response } from 'express';
-
-import Firebase from 'src/config/firebase';
-import { UserTypes } from 'src/interfaces/userTypes';
-import Player from 'src/models/player';
+import { UserTypes } from 'interfaces';
+import Player from 'models/player';
 
 export interface RequestWithFirebase extends Request {
   firebaseUid?: string;

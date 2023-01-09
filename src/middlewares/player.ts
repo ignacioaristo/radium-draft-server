@@ -1,9 +1,8 @@
+import Firebase from 'config/firebase';
+import { PlayerPosition } from 'enums';
 import { NextFunction, Request, Response } from 'express';
+import { YUPPlayer } from 'interfaces/player';
 import * as yup from 'yup';
-
-import Firebase from 'src/config/firebase';
-import { PlayerPosition } from 'src/enums';
-import { YUPPlayer } from 'src/interfaces/player';
 
 const playerYupSchema: yup.SchemaOf<YUPPlayer> = yup.object({
   firstName: yup

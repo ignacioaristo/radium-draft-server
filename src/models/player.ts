@@ -1,7 +1,6 @@
+import { PlayerPosition } from 'enums';
+import { IPlayer } from 'interfaces';
 import mongoose, { Schema } from 'mongoose';
-
-import { PlayerPosition } from 'src/enums';
-import { IPlayer } from 'src/interfaces/player';
 
 const playerSchema: Schema = new Schema<IPlayer>(
   {

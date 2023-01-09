@@ -1,8 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { MatchStatus } from 'enums';
 import { Request, Response } from 'express';
-
-import { MatchStatus } from 'src/enums';
-import Match from 'src/models/match';
+import Match from 'models/match';
 
 export const createMatch = async (req: Request, res: Response) => {
   try {
