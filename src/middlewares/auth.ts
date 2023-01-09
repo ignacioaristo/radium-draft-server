@@ -27,6 +27,7 @@ export const isPlayerAuthMiddleware = async (
   next: NextFunction,
 ) => {
   try {
+    console.log('req.headers.authorization', req.headers.authorization);
     if (!req.headers.authorization) {
       return res.boom.badRequest('Token is required');
     }

@@ -9,6 +9,7 @@ export interface IMatch {
   date: Date;
   result: Result;
   status: MatchStatus;
+  field: string;
 }
 
 interface Result {
