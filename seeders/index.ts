@@ -30,6 +30,10 @@ const config = {
     remove: process.env.SEEDER_PLAYERS__REMOVE === 'true',
     create: process.env.SEEDER_PLAYERS__CREATE === 'true',
   },
+  matches: {
+    remove: process.env.SEEDER_MATCHES__REMOVE === 'true',
+    create: process.env.SEEDER_MATCHES__CREATE === 'true',
+  },
 };
 
 (async () => {
