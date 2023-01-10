@@ -1,7 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { MatchStatus } from 'enums';
 import { Request, Response } from 'express';
+import { UserTypes } from 'interfaces/userTypes';
 import Match from 'models/match';
+import Player from 'models/player';
 
 export const createMatch = async (req: Request, res: Response) => {
   try {
@@ -63,18 +65,34 @@ export const getInactiveMatches = async (req: Request, res: Response) => {
 
 export const getMatches = async (req: Request, res: Response) => {
   try {
-    const matches = await Match.find().populate('teamA teamB');
+    const { userType } = res.locals;
 
-    return res.status(200).json({
-      statusCode: 200,
-      message: 'Matches Found',
-      payload: matches,
-    });
+    if (userType === UserTypes.PLAYER) {
+      const currentPlayer = await Player.findOne({ firebaseUid: res.locals.firebaseUid });
+      const matches = await Match.find({
+        $or: [{ teamA: currentPlayer?._id }, { teamB: currentPlayer?._id }],
+      }).populate('teamA teamB');
+
+      return res.status(200).json({
+        statusCode: 200,
+        message: 'Matches Found',
+        payload: matches,
+      });
+    } else {
+      const matches = await Player.find();
+
+      return res.status(200).json({
+        statusCode: 200,
+        message: 'Matches Found',
+        payload: matches,
+      });
+    }
   } catch (error) {
     if (error instanceof Error) return res.boom.internal(error.message);
     return res.boom.internal(String(error));
   }
 };
+
 export const cancelMatch = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
