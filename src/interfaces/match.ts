@@ -1,8 +1,6 @@
 import { MatchStatus } from 'enums';
 import { Types } from 'mongoose';
 
-// import { IPlayer } from './player';
-
 export interface IMatch {
   teamA: Types.ObjectId[];
   teamB: Types.ObjectId[];
