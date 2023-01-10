@@ -26,8 +26,8 @@ const matches: MatchWithID[] = [
     ],
     date: new Date(),
     result: {
-      teamA: 5,
-      teamB: 3,
+      teamA: 7,
+      teamB: 1,
       winner: Teams.teamA,
     },
     status: MatchStatus.finished,
@@ -51,8 +51,8 @@ const matches: MatchWithID[] = [
     ],
     date: new Date(),
     result: {
-      teamA: 5,
-      teamB: 3,
+      teamA: 9,
+      teamB: 12,
       winner: Teams.teamB,
     },
     status: MatchStatus.finished,
@@ -141,8 +141,8 @@ const matches: MatchWithID[] = [
     ],
     date: new Date(),
     result: {
-      teamA: 5,
-      teamB: 3,
+      teamA: 8,
+      teamB: 6,
       winner: Teams.teamA,
     },
     status: MatchStatus.finished,
