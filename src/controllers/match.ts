@@ -65,10 +65,10 @@ export const getInactiveMatches = async (req: Request, res: Response) => {
 
 export const getMatches = async (req: Request, res: Response) => {
   try {
-    const { userType } = res.locals;
+    const { userType, firebaseUid } = res.locals;
 
     if (userType !== UserTypes.PLAYER) {
-      const matches = await Player.find();
+      const matches = await Match.find();
 
       return res.status(200).json({
         statusCode: 200,
@@ -77,7 +77,7 @@ export const getMatches = async (req: Request, res: Response) => {
       });
     }
 
-    const currentPlayer = await Player.findOne({ firebaseUid: res.locals.firebaseUid });
+    const currentPlayer = await Player.findOne({ firebaseUid });
     const matches = await Match.find({
       $or: [{ teamA: currentPlayer?._id }, { teamB: currentPlayer?._id }],
     }).populate('teamA teamB');
