@@ -7,7 +7,7 @@ export interface IMatch {
   teamA: PopulatedDoc<IPlayer>[];
   teamB: PopulatedDoc<IPlayer>[];
   date: Date;
-  result: Result;
+  result?: Result;
   status: MatchStatus;
   field: string;
 }
