@@ -63,7 +63,7 @@ export const getInactiveMatches = async (req: Request, res: Response) => {
 
 export const getMatches = async (req: Request, res: Response) => {
   try {
-    const matches = await Match.find();
+    const matches = await Match.find().populate('teamA teamB');
 
     return res.status(200).json({
       statusCode: 200,

@@ -23,6 +23,7 @@ const matchSchema: Schema = new Schema<IMatch>(
       teamB: { type: Number },
       winner: { type: String, enum: Teams },
     },
+    field: { type: String },
   },
   { timestamps: true },
 );
