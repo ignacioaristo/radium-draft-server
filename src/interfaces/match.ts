@@ -1,11 +1,11 @@
 import { MatchStatus } from 'enums';
-import { PopulatedDoc } from 'mongoose';
+import { Types } from 'mongoose';
 
-import { IPlayer } from './player';
+// import { IPlayer } from './player';
 
 export interface IMatch {
-  teamA: PopulatedDoc<IPlayer>[];
-  teamB: PopulatedDoc<IPlayer>[];
+  teamA: Types.ObjectId[];
+  teamB: Types.ObjectId[];
   date: Date;
   result?: Result;
   status: MatchStatus;
