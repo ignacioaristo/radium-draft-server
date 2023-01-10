@@ -67,18 +67,7 @@ export const getMatches = async (req: Request, res: Response) => {
   try {
     const { userType } = res.locals;
 
-    if (userType === UserTypes.PLAYER) {
-      const currentPlayer = await Player.findOne({ firebaseUid: res.locals.firebaseUid });
-      const matches = await Match.find({
-        $or: [{ teamA: currentPlayer?._id }, { teamB: currentPlayer?._id }],
-      }).populate('teamA teamB');
-
-      return res.status(200).json({
-        statusCode: 200,
-        message: 'Matches Found',
-        payload: matches,
-      });
-    } else {
+    if (userType !== UserTypes.PLAYER) {
       const matches = await Player.find();
 
       return res.status(200).json({
@@ -87,6 +76,17 @@ export const getMatches = async (req: Request, res: Response) => {
         payload: matches,
       });
     }
+
+    const currentPlayer = await Player.findOne({ firebaseUid: res.locals.firebaseUid });
+    const matches = await Match.find({
+      $or: [{ teamA: currentPlayer?._id }, { teamB: currentPlayer?._id }],
+    }).populate('teamA teamB');
+
+    return res.status(200).json({
+      statusCode: 200,
+      message: 'Matches Found',
+      payload: matches,
+    });
   } catch (error) {
     if (error instanceof Error) return res.boom.internal(error.message);
     return res.boom.internal(String(error));
