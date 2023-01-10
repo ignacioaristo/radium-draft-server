@@ -4,8 +4,9 @@ import { UserRecord } from 'firebase-admin/lib/auth/user-record';
 import { DeleteResult, InsertManyResult } from 'mongodb';
 import mongoose, { AnyObject } from 'mongoose';
 
+import Match from '../src/models/match';
 import Player from '../src/models/player';
-import { firebaseUsers, players } from './data';
+import { firebaseUsers, matches, players } from './data';
 
 dotenv.config({
   path: `.env.${process.env.NODE_ENV}`,
@@ -73,6 +74,9 @@ const config = {
       if (config.players.remove) {
         promises.push(Player.collection.deleteMany({}));
       }
+      if (config.matches.remove) {
+        promises.push(Match.collection.deleteMany({}));
+      }
       // ------------ REMOVE MONGODB COLLECTIONS -- [end]
 
       await Promise.all([Promise.all(removeFirebaseUsers), Promise.all(promises)]);
@@ -101,6 +105,9 @@ const config = {
       const promises: Promise<InsertManyResult<AnyObject>>[] = [];
       if (config.players.create) {
         promises.push(Player.collection.insertMany(players));
+      }
+      if (config.matches.create) {
+        promises.push(Match.collection.insertMany(matches));
       }
       // ------------ UPLOAD MONGODB COLLECTIONS -- [end]
       await Promise.all([Promise.all(createFirebaseUsers), Promise.all(promises)]);
