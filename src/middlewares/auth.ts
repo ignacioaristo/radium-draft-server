@@ -31,7 +31,6 @@ export const isPlayerAuthMiddleware = async (
       return res.boom.badRequest('Token is required');
     }
     const decodedToken = await Firebase.auth().verifyIdToken(req.headers.authorization);
-
     if (decodedToken.userType !== UserTypes.PLAYER) {
       throw new Error('Provide a valid player token');
     }
