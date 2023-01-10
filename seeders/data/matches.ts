@@ -1,6 +1,6 @@
 import { Types } from 'mongoose';
 
-import { MatchStatus } from '../../src/enums';
+import { MatchStatus, Teams } from '../../src/enums';
 import { IMatch } from '../../src/interfaces/match';
 
 interface MatchWithID extends IMatch {
@@ -28,7 +28,7 @@ const matches: MatchWithID[] = [
     result: {
       teamA: 5,
       teamB: 3,
-      winner: 'teamA',
+      winner: Teams.teamA,
     },
     status: MatchStatus.finished,
     field: 'La previa',
@@ -53,7 +53,7 @@ const matches: MatchWithID[] = [
     result: {
       teamA: 5,
       teamB: 3,
-      winner: 'teamA',
+      winner: Teams.teamB,
     },
     status: MatchStatus.finished,
     field: 'La previa',
