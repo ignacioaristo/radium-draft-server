@@ -5,6 +5,8 @@ import { UserTypes } from 'interfaces/userTypes';
 import Match from 'models/match';
 import Player from 'models/player';
 
+import { draftLogic } from 'src/utils';
+
 export const createMatch = async (req: Request, res: Response) => {
   try {
     const newMatch = new Match(req.body);
@@ -136,6 +138,19 @@ export const finishMatch = async (req: Request, res: Response) => {
     await match.save();
 
     return res.status(200).json(match);
+  } catch (error) {
+    if (error instanceof Error) return res.boom.internal(error.message);
+    return res.boom.internal(String(error));
+  }
+};
+
+export const getDraft = async (req: Request, res: Response) => {
+  try {
+    const { players } = req.body;
+
+    const response = await draftLogic(players);
+
+    return res.status(200).json(players);
   } catch (error) {
     if (error instanceof Error) return res.boom.internal(error.message);
     return res.boom.internal(String(error));

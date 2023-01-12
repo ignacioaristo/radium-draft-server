@@ -3,6 +3,7 @@ import {
   createMatch,
   finishMatch,
   getActiveMatches,
+  getDraft,
   getInactiveMatches,
   getMatch,
   getMatches,
@@ -19,5 +20,6 @@ router.get('/inactive', isPlayerAuthMiddleware, getInactiveMatches);
 router.get('/active', isPlayerAuthMiddleware, getActiveMatches);
 router.patch('/cancel/:id', isPlayerAuthMiddleware, cancelMatch);
 router.patch('/finish/:id', isPlayerAuthMiddleware, finishMatch);
+router.put('/:id/draft', getDraft);
 
 export default router;
