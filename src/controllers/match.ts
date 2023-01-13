@@ -26,14 +26,14 @@ export const createMatch = async (req: Request, res: Response) => {
       throw new Error('Player not found');
     }
 
-    const response = draftLogic(players);
+    const draftedPlayers = draftLogic(players);
 
     const payload: Match = {
       owner: foundPlayer?.id,
-      teamA: response?.teamA,
-      teamB: response?.teamB,
-      skillAvgA: response?.skillAvgA,
-      skillAvgB: response?.skillAvgB,
+      teamA: draftedPlayers?.teamA,
+      teamB: draftedPlayers?.teamB,
+      skillAvgA: draftedPlayers?.skillAvgA,
+      skillAvgB: draftedPlayers?.skillAvgB,
     };
 
     const newMatch = new Match(payload);
@@ -186,15 +186,15 @@ export const reDraft = async (req: Request, res: Response) => {
     const { players } = req.body;
     const { id } = req.params;
 
-    const response = draftLogic(players);
+    const draftedPlayers = draftLogic(players);
 
     const resUpdate = await Match.findOneAndUpdate(
       { _id: id },
       {
-        teamA: response.teamA,
-        teamB: response.teamB,
-        skillAvgA: response.skillAvgA,
-        skillAvgB: response.skillAvgB,
+        teamA: draftedPlayers.teamA,
+        teamB: draftedPlayers.teamB,
+        skillAvgA: draftedPlayers.skillAvgA,
+        skillAvgB: draftedPlayers.skillAvgB,
       },
       { new: true },
     )
@@ -219,7 +219,7 @@ export const updateMatch = async (req: Request, res: Response) => {
     const { id } = req.params;
     const { date, time, field } = req.body;
 
-    const response = await Match.findOneAndUpdate(
+    const updatedMatch = await Match.findOneAndUpdate(
       { _id: id },
       {
         date,
@@ -230,7 +230,7 @@ export const updateMatch = async (req: Request, res: Response) => {
       { new: true },
     );
 
-    return res.status(200).json(response);
+    return res.status(200).json(updatedMatch);
   } catch (error) {
     if (error instanceof Error) return res.boom.internal(error.message);
     return res.boom.internal(String(error));
