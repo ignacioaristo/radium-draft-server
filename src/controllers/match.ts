@@ -1,16 +1,54 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { MatchStatus } from 'enums';
 import { Request, Response } from 'express';
+import { IPlayer } from 'interfaces';
 import { UserTypes } from 'interfaces/userTypes';
 import Match from 'models/match';
 import Player from 'models/player';
 
+import { draftLogic } from 'src/utils';
+
+interface Match {
+  teamA: IPlayer[];
+  teamB: IPlayer[];
+  skillAvgA: number;
+  skillAvgB: number;
+  owner: string;
+}
+
 export const createMatch = async (req: Request, res: Response) => {
   try {
-    const newMatch = new Match(req.body);
+    const { players, firebaseUid } = req.body.payload;
+
+    const foundPlayer = await Player.findOne({ firebaseUid });
+
+    if (!foundPlayer) {
+      throw new Error('Player not found');
+    }
+
+    const draftedPlayers = draftLogic(players);
+
+    const newMatch = new Match({
+      owner: foundPlayer._id,
+      teamA: draftedPlayers.teamA,
+      teamB: draftedPlayers.teamB,
+      skillAvgA: draftedPlayers.skillAvgA,
+      skillAvgB: draftedPlayers.skillAvgB,
+    });
+
     await newMatch.save();
 
-    return res.status(201).json(newMatch);
+    const matchFound = await Match.findById(newMatch._id)
+      .populate({
+        path: 'teamA',
+        select: ['firstName', 'lastName', 'position', 'skill'],
+      })
+      .populate({
+        path: 'teamB',
+        select: ['firstName', 'lastName', 'position', 'skill'],
+      });
+
+    return res.status(201).json(matchFound);
   } catch (error) {
     if (error instanceof Error) return res.boom.internal(error.message);
     return res.boom.internal(String(error));
@@ -136,6 +174,66 @@ export const finishMatch = async (req: Request, res: Response) => {
     await match.save();
 
     return res.status(200).json(match);
+  } catch (error) {
+    if (error instanceof Error) return res.boom.internal(error.message);
+    return res.boom.internal(String(error));
+  }
+};
+
+export const reDraft = async (req: Request, res: Response) => {
+  try {
+    const { players } = req.body;
+    const { id } = req.params;
+
+    const draftedPlayers = draftLogic(players);
+
+    const resUpdate = await Match.findByIdAndUpdate(
+      id,
+      {
+        teamA: draftedPlayers.teamA,
+        teamB: draftedPlayers.teamB,
+        skillAvgA: draftedPlayers.skillAvgA,
+        skillAvgB: draftedPlayers.skillAvgB,
+      },
+      { new: true },
+    )
+      .populate({
+        path: 'teamA',
+        select: ['firstName', 'lastName', 'position', 'skill'],
+      })
+      .populate({
+        path: 'teamB',
+        select: ['firstName', 'lastName', 'position', 'skill'],
+      });
+
+    if (!updateMatch) throw new Error('Match not found');
+
+    return res.status(200).json(resUpdate);
+  } catch (error) {
+    if (error instanceof Error) return res.boom.internal(error.message);
+    return res.boom.internal(String(error));
+  }
+};
+
+export const updateMatch = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const { date, time, field } = req.body;
+
+    const updatedMatch = await Match.findByIdAndUpdate(
+      id,
+      {
+        date,
+        time,
+        status: MatchStatus.toBePlayed,
+        field,
+      },
+      { new: true },
+    );
+
+    if (!updateMatch) throw new Error('Match not found');
+
+    return res.status(200).json(updatedMatch);
   } catch (error) {
     if (error instanceof Error) return res.boom.internal(error.message);
     return res.boom.internal(String(error));
