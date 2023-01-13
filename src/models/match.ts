@@ -16,14 +16,21 @@ const matchSchema: Schema = new Schema<IMatch>(
         type: Schema.Types.ObjectId,
       },
     ],
-    date: { type: Date },
-    status: { type: String, enum: MatchStatus, default: MatchStatus.toBePlayed },
+    date: { type: String },
+    status: { type: String, enum: MatchStatus, default: MatchStatus.pending },
     result: {
       teamA: { type: Number },
       teamB: { type: Number },
       winner: { type: String, enum: Teams },
     },
     field: { type: String },
+    skillAvgA: { type: Number },
+    skillAvgB: { type: Number },
+    time: { type: String },
+    owner: {
+      ref: 'Player',
+      type: Schema.Types.ObjectId,
+    },
   },
   { timestamps: true },
 );

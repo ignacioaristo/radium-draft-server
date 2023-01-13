@@ -12,9 +12,10 @@ export enum PlayerStatus {
 }
 
 export enum MatchStatus {
-  toBePlayed = 'To be played',
+  toBePlayed = 'ToBePlayed',
   cancelled = 'Cancelled',
   finished = 'Finished',
+  pending = 'Pending',
 }
 
 export enum Teams {
