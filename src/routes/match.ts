@@ -3,10 +3,11 @@ import {
   createMatch,
   finishMatch,
   getActiveMatches,
-  getDraft,
   getInactiveMatches,
   getMatch,
   getMatches,
+  reDraft,
+  updateMatch,
 } from 'controllers/match';
 import express from 'express';
 import { isPlayerAuthMiddleware } from 'middlewares/auth';
@@ -20,6 +21,7 @@ router.get('/inactive', isPlayerAuthMiddleware, getInactiveMatches);
 router.get('/active', isPlayerAuthMiddleware, getActiveMatches);
 router.patch('/cancel/:id', isPlayerAuthMiddleware, cancelMatch);
 router.patch('/finish/:id', isPlayerAuthMiddleware, finishMatch);
-router.put('/:id/draft', getDraft);
+router.put('/:id/draft', reDraft);
+router.put('/:id', updateMatch);
 
 export default router;
