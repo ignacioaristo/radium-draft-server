@@ -191,7 +191,7 @@ const matches: MatchWithID[] = [
     skillAvgA: 5,
     skillAvgB: 5,
     owner: new Types.ObjectId('63b1efd99726809eb2410705'),
-    status: MatchStatus.toBePlayed,
+    status: MatchStatus.pending,
   },
 ];
 
