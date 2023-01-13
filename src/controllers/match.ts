@@ -18,9 +18,9 @@ interface Match {
 
 export const createMatch = async (req: Request, res: Response) => {
   try {
-    const { players, firebaseUID } = req.body.payload;
+    const { players, firebaseUid } = req.body.payload;
 
-    const foundPlayer = await Player.findOne({ firebaseUid: firebaseUID });
+    const foundPlayer = await Player.findOne({ firebaseUid });
 
     if (!foundPlayer) {
       throw new Error('Player not found');
@@ -28,18 +28,17 @@ export const createMatch = async (req: Request, res: Response) => {
 
     const draftedPlayers = draftLogic(players);
 
-    const payload: Match = {
-      owner: foundPlayer?.id,
-      teamA: draftedPlayers?.teamA,
-      teamB: draftedPlayers?.teamB,
-      skillAvgA: draftedPlayers?.skillAvgA,
-      skillAvgB: draftedPlayers?.skillAvgB,
-    };
+    const newMatch = new Match({
+      owner: foundPlayer._id,
+      teamA: draftedPlayers.teamA,
+      teamB: draftedPlayers.teamB,
+      skillAvgA: draftedPlayers.skillAvgA,
+      skillAvgB: draftedPlayers.skillAvgB,
+    });
 
-    const newMatch = new Match(payload);
     await newMatch.save();
 
-    const matchFound = await Match.findOne({ _id: newMatch._id })
+    const matchFound = await Match.findById(newMatch._id)
       .populate({
         path: 'teamA',
         select: ['firstName', 'lastName', 'position', 'skill'],
@@ -188,8 +187,8 @@ export const reDraft = async (req: Request, res: Response) => {
 
     const draftedPlayers = draftLogic(players);
 
-    const resUpdate = await Match.findOneAndUpdate(
-      { _id: id },
+    const resUpdate = await Match.findByIdAndUpdate(
+      id,
       {
         teamA: draftedPlayers.teamA,
         teamB: draftedPlayers.teamB,
@@ -207,6 +206,8 @@ export const reDraft = async (req: Request, res: Response) => {
         select: ['firstName', 'lastName', 'position', 'skill'],
       });
 
+    if (!updateMatch) throw new Error('Match not found');
+
     return res.status(200).json(resUpdate);
   } catch (error) {
     if (error instanceof Error) return res.boom.internal(error.message);
@@ -219,8 +220,8 @@ export const updateMatch = async (req: Request, res: Response) => {
     const { id } = req.params;
     const { date, time, field } = req.body;
 
-    const updatedMatch = await Match.findOneAndUpdate(
-      { _id: id },
+    const updatedMatch = await Match.findByIdAndUpdate(
+      id,
       {
         date,
         time,
@@ -229,6 +230,8 @@ export const updateMatch = async (req: Request, res: Response) => {
       },
       { new: true },
     );
+
+    if (!updateMatch) throw new Error('Match not found');
 
     return res.status(200).json(updatedMatch);
   } catch (error) {
