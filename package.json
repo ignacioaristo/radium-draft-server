@@ -4,9 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "tsc && yarn babel",
+    "build": "tsc --project .",
     "babel": "babel dist -d ./dist/",
-    "start:dev": "NODE_ENV=dev nodemon ./src/index.js",
+    "start": "nodemon ./src/index.ts",
+    "start:dev": "NODE_ENV=dev nodemon ./src/index.ts",
     "start:prod": "NODE_ENV=prod nodemon ./src/index.ts",
     "start:build": "node dist/index.js",
     "test": "jest --passWithNoTests",
