@@ -1,0 +1,52 @@
+name: Deployment
+
+on:
+  workflow_call:
+    inputs:
+        environment:
+          required: true
+          type: string
+        production:
+          required: false
+          type: boolean
+          default: false
+        domain:
+          required: false
+          type: string
+          default: ""
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment: ${{ inputs.environment }}
+    if: "!contains(github.event.head_commit.message, '[skip ci]')"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Build
+        run: | # ADD ALL ENV VARIABLES HERE
+          yarn
+          DATABASE_URL="${{ secrets.DATABASE_URL}}" \
+          FIREBASE_PRIVATE_KEY="${{ secrets.FIREBASE_PRIVATE_KEY}}" \
+          FIREBASE_CLIENT_EMAIL="${{ secrets.FIREBASE_CLIENT_EMAIL}}" \
+          FIREBASE_PROJECT_ID="${{ secrets.FIREBASE_PROJECT_ID}}" \
+          SEEDER_REMOVE="${{ secrets.SEEDER_REMOVE}}" \
+          SEEDER_CREATE="${{ secrets.SEEDER_CREATE}}" \
+          SEEDER_FIREBASE_USERS__REMOVE="${{ secrets.SEEDER_FIREBASE_USERS__REMOVE}}" \
+          SEEDER_FIREBASE_USERS__CREATE="${{ secrets.SEEDER_FIREBASE_USERS__CREATE}}" \
+          SEEDER_PLAYERS__REMOVE="${{ secrets.SEEDER_PLAYERS__REMOVE}}" \
+          SEEDER_PLAYERS__CREATE="${{ secrets.SEEDER_PLAYERS__CREATE}}" \
+          ENV="${{ secrets.ENV }}" \
+          yarn build
+      - name: Deploy to Vercel Action
+        uses: BetaHuhn/deploy-to-vercel-action@v1
+        with:
+          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+          VERCEL_SCOPE: ${{ secrets.VERCEL_TEAM_NAME }}
+          PRODUCTION: ${{ inputs.production }}
+          ALIAS_DOMAINS: |
+            https://${{ inputs.domain }}${{ secrets.APP_DOMAIN }}

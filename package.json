@@ -6,9 +6,10 @@
   "scripts": {
     "build": "tsc && yarn babel",
     "babel": "babel dist -d ./dist/",
+    "start:build": "node dist/index.js",
+    "start": "nodemon",
     "start:dev": "NODE_ENV=dev nodemon ./src/index.js",
     "start:prod": "NODE_ENV=prod nodemon ./src/index.ts",
-    "start:build": "node dist/index.js",
     "test": "jest --passWithNoTests",
     "type-check": "tsc --noEmit",
     "lint": "eslint \"./**/*.{ts,test.ts}\"",

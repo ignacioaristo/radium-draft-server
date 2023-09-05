@@ -8,9 +8,7 @@ import Match from '../src/models/match';
 import Player from '../src/models/player';
 import { firebaseUsers, matches, players } from './data';
 
-dotenv.config({
-  path: `.env.${process.env.NODE_ENV}`,
-});
+dotenv.config();
 
 firebaseAdmin.initializeApp({
   credential: firebaseAdmin.credential.cert({

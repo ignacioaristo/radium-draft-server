@@ -1,9 +1,7 @@
 import dotenv from 'dotenv';
 import admin from 'firebase-admin';
 
-dotenv.config({
-  path: `.env.${process.env.NODE_ENV}`,
-});
+dotenv.config();
 
 const Firebase = admin.initializeApp({
   credential: admin.credential.cert({

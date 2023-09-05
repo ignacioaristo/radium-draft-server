@@ -1,30 +1,29 @@
-# [projectCode-XXX: title-of-ticket](JIRA_url)
+# Description
 
-> Ticket code, title of the ticket and as a hyperlink, the corresponding JIRA link
+Please include a summary of the change and which issue is fixed. Include relevant motivation and context. List any dependencies that are required for this change.
+
+Fixes # (issue)
 
 ## Type of change
 
-> Exchange rate entered. The possible values ​​for this section are:
->
-> - Feature (new feature of the server/application)
-> - Bug Fix (problem solution in development environment)
-> - Hot Fix (problem solution in production environment)
-> - Environment Merge (merge branches to different environments)
+Please check the correct option.
 
-## Description
+- [ ] New feature (non-breaking change which adds functionality)
+- [ ] Bug fix (non-breaking change which fixes an issue)
+- [ ] Hotfix (fix something in production)
 
-> - Brief description of the changes introduced in this PR.
-> - It must write what was changed, why it was changed and for what purpose.
-> - It is recommended to describe it in points to facilitate understanding.
+# How Has This Been Tested?
 
-## Attachments
+Please describe the tests that you ran to verify your changes. Provide instructions so we can reproduce. List any relevant details for your test configuration.
 
-> Images or videos showing the behavior of what is introduced in the UI, necessary to facilitate the understanding and correction of the PR.
-> In the event that what has been done cannot be visually detected (for example, work on the Backend), this section will remain empty.
+# Checklist:
 
-## Change Procedure
-
-> Elements to take into account when merging or reviewing the PR. For example:
-> If the mergeo depends on another PR
-> The priority of the mergeo of it
-> What variables must be taken into account in order to review the PR
+- My code follows the style guidelines of this project.
+- I have performed a self-review of my own code.
+- I have commented my code, particularly in hard-to-understand areas.
+- I have made corresponding changes to the documentation.
+- My changes generate no new warnings.
+- I have added tests that prove my fix is effective or that my feature works.
+- New and existing unit tests pass locally with my changes.
+- Any dependent changes have been merged and published in downstream modules.
+- I have created/updated the seed to avoid database issues.

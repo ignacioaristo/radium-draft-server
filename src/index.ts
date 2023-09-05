@@ -3,9 +3,7 @@ import mongoose from 'mongoose';
 
 import app from './app';
 
-dotenv.config({
-  path: `.env.${process.env.NODE_ENV}`,
-});
+dotenv.config();
 
 mongoose.Promise = global.Promise;
 
